@@ -1,0 +1,65 @@
+<ion-view view-title="Mapa">
+
+  <ion-content class="map-container has-header" data-tap-disabled="true" ng-init="find()">
+    <ui-gmap-google-map center='map.center' zoom='map.zoom' id="#map_canvas" pan='true' options="map.options" >
+    	<ui-gmap-marker idKey='marker.id' coords='marker.coords' icon="marker.icon" options="marker.options">
+    		<ui-gmap-window options="windowOptions" closeClick="closeClick()">
+                <div>Localização Atual</div>
+            </ui-gmap-window>
+    	</ui-gmap-marker>
+    	<ui-gmap-marker idKey='markerOcorrencia.id' coords='markerOcorrencia.coords' icon="markerOcorrencia.icon" options="markerOcorrencia.options">
+	    	<ui-gmap-window options="windowOptions" closeClick="closeClick()">
+	            <div>Ocorrência Aberta</div>
+	        </ui-gmap-window>
+    	</ui-gmap-marker>
+
+    	<ui-gmap-marker idKey='v.id' coords='v.coords' icon="v.icon" options="v.options" ng-repeat="v in markerViaturas">
+    	</ui-gmap-marker>
+    	
+    </ui-gmap-google-map>
+    <div class="padding">
+	    <div class="card" ng-show="isGPSactived == false && GPS == true"  style="margin-top: 0px">
+		  <div class="item item-divider" style="background: #EF473A; color: white">
+		    Atenção
+		  </div>
+		  <div class="item item-text-wrap">
+		    Para o funcionamento do aplicativo é necessário que o <b>GPS</b> do aparelho esteja <b>ativado</b>.
+		  </div>
+		</div>
+	</div>
+	<div class="padding" style="margin-top: -20px">
+		<button class="button button-small button-assertive icon-left ion-ios-location" ng-click="find()">Localização Atual</button>
+		<div class="" ng-show="ocorrencia" style="border: 2px solid #EF473A; margin-right: 10px; background: white; float: right; width: 50px; height: 50px; text-align:center; line-height: 70px; position: relative;box-shadow: 1px 1px 2px black; border-radius: 100px" ng-click="findOcorrencia()"><img src="img/map-icon-red.png" /></div>
+		<div ng-repeat="v in markerViaturas" class="" style="border: 2px solid #EF473A; margin-right: 10px; background: white; float: right; width: 50px; height: 50px; text-align:center; line-height: 80px; position: relative;box-shadow: 1px 1px 2px black; border-radius: 100px" ng-click="findViatura(v)"><img src="img/ambulance-icon.png" /></div>
+	</div>
+	<div class="padding" style="position: absolute; bottom: 0px; width: 100%">
+    	<button ng-show="isGPSactived == true && GPS == true && ocorrencia == null" class="button button-assertive button-block" ng-click="openModal()">Solicitar Socorro </button>
+    	<button ng-show="ocorrencia != null" class="button button-assertive button-block" ng-click="pararAcompanhamento()">Parar Acompanhamento</button>
+    	<!--a href="tel:193" ng-show="isGPSactived == false && GPS == true"  class="button button-assertive button-block icon ion-ios-telephone-outlinee">Ligar para o bombeiro</a-->
+    </div>
+    <div style='position: absolute; width: 30px; height: 30px; background: #EF473A; color: white; text-align: center; line-height: 30px; font-size: 26px; top: 50%;margin-top: -60px; border-bottom: 1px solid white; left: 10px;' ng-click="zoomIn()">+</div>
+    <div style='position: absolute; width: 30px; height: 30px; background: #EF473A; color: white; text-align: center; line-height: 30px; font-size: 26px; top: 50%;margin-top: -30px; left: 10px;' ng-click="zoomOut()">-</div>
+  </ion-content>
+</ion-view>
+
+ <script id="modal.html" type="text/ng-template">
+      <ion-modal-view>
+	    <ion-header-bar class="bar-assertive">
+	      <h1 class="title">Solicitar socorro</h1>
+	      <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+	    </ion-header-bar>
+	    <ion-content has-header="true" class="padding">
+	      <p><b>Verifique se a sua localização no mapa está correta</b><br />O próximo passo abrirá a câmera do seu celular, você está de acordo?</p>
+	      <div class="row">
+  			<div class="col"><button class="button button-full button-assertive icon-left ion-camera" ng-click="solicitarSocorro()"> Foto </button></div>
+  			<div class="col"><button class="button button-full button-assertive icon-left ion-videocamera" ng-click="solicitarSocorroVideo()"> Video </button></div>
+  			</div>
+	    </ion-content>
+	  </ion-modal-view>
+    </script>
+<!--
+<ion-footer-bar class="bar-dark">
+	<button ng-show="isGPSactived == false" class="button button-royal button-block" ng-click="solicitarSocorro()"> Solicitar Socorro </button>
+	<a ng-click="solicitarSocorro()" class="button button-icon icon ion-navigate">Solicitar Socorro</a>
+</ion-footer-bar>
+-->

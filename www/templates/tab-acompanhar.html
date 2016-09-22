@@ -1,0 +1,30 @@
+<ion-view view-title="Acompanhar Ocorrência Mapa">
+  <ion-content class="map-container has-header" data-tap-disabled="true" ng-init="find()">
+    <ui-gmap-google-map center='map.center' zoom='map.zoom' markers="markers" id="#map_canvas" pan='false' options="map.options" >
+    	<ui-gmap-marker idKey='marker.id' coords='marker.coords' icon="marker.icon" options="marker.options"> </ui-gmap-marker>
+    	<ui-gmap-marker idKey='markerOcorrencia.id' coords='markerOcorrencia.coords' icon="markerOcorrencia.icon" options="markerOcorrencia.options">
+	    	<ui-gmap-window options="windowOptions" closeClick="closeClick()">
+	            <div>Ocorrência Aberta</div>
+	        </ui-gmap-window>
+
+    	</ui-gmap-marker>
+    	<ui-gmap-marker idKey='v.id' coords='v.coords' icon="v.icon" options="v.options" ng-repeat="v in markerViaturas">
+    	</ui-gmap-marker>
+
+    	<ui-gmap-marker idKey='' models="viaturas" coords="'self'" icon="'icon'" options="'options'">
+    		<ui-gmap-windows show="show">
+                <div ng-non-bindable>Viatura a caminho</div>
+            </ui-gmap-windows>
+    	</ui-gmap-markers>
+    </ui-gmap-google-map>
+	<div class="padding">
+		<div class="" ng-show="ocorrencia" style="border: 2px solid #EF473A; margin-right: 10px; background: white; float: right; width: 50px; height: 50px; text-align:center; line-height: 70px; position: relative;box-shadow: 1px 1px 2px black; border-radius: 100px" ng-click="findOcorrencia()"><img src="img/map-icon-red.png" /></div>
+		<div ng-repeat="v in markerViaturas" class="" style="border: 2px solid #EF473A; margin-right: 10px; background: white; float: right; width: 50px; height: 50px; text-align:center; line-height: 80px; position: relative;box-shadow: 1px 1px 2px black; border-radius: 100px" ng-click="findViatura(v)"><img src="img/ambulance-icon.png" /></div>
+	</div>
+	<div style='position: absolute; width: 30px; height: 30px; background: #EF473A; color: white; text-align: center; line-height: 30px; font-size: 26px; top: 50%;margin-top: -60px; border-bottom: 1px solid white; left: 10px;' ng-click="zoomIn()">+</div>
+    <div style='position: absolute; width: 30px; height: 30px; background: #EF473A; color: white; text-align: center; line-height: 30px; font-size: 26px; top: 50%;margin-top: -30px; left: 10px;' ng-click="zoomOut()">-</div>
+    <div class="padding" style="position: absolute; bottom: 0px; width: 100%">
+        <button ng-show="ocorrencia != null" class="button button-assertive button-block" ng-click="pararAcompanhamento()">Parar Acompanhamento</button>
+    </div>
+  </ion-content>
+</ion-view>
